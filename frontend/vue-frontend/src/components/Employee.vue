@@ -9,11 +9,13 @@
                 <th>Employee Email</th>
             </thead>
             <tbody>
-                <tr v-for="employee in employees" :key="employee.id">
+                <tr v-for="employee, i in employees" :key="employee.id">
                     <td>{{employee.id}}</td>
                     <td>{{employee.firstName}}</td>
                     <td>{{employee.lastName}}</td>
                     <td>{{employee.email}}</td>
+                    <td><button type="button" class="btn btn-secondary">Update</button></td>
+                    <td><button type="button" class="btn btn-secondary" v-on:click="deleteEmployee(employee.id, i)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
@@ -34,6 +36,11 @@ export default {
         getEmployees() {
             EmployeeService.getEmployees().then((response) => {
                 this.employees = response.data;
+            })
+        },
+        deleteEmployee(id, i) {
+             EmployeeService.deleteEmployee(id).then(() => {
+                this.employees.splice(i, 1);
             })
         }
     },
